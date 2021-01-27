@@ -15,6 +15,7 @@ void game(){
   for(GameObject obj:objects){
     insta(obj);
   }
+  if(p)mode=PAUSE;
   world.endDraw();
   image(world,0,0);
   

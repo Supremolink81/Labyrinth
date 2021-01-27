@@ -3,7 +3,7 @@ void drawMap(int count){
     for(int y=0;y<map.height;y++){
       color c=map.get(x,y);
       if(c==dullblue)for(int i=1;i<=count;i++)texturedCube(x*gridSize-2000,height-gridSize*i,y*gridSize-2000,mossyStone,gridSize);
-      if(c==black)objects.add(new Turret(new PVector(x,y)));
+      if(c==black)objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-35,y*gridSize-2000)));
     }
   }
 }

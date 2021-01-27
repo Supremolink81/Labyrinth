@@ -1,10 +1,10 @@
 import java.awt.Robot;
 
-boolean w,a,s,d,shift;
+boolean w,a,s,d,p,shift;
 float eyeX,eyeY,eyeZ,focusX,focusY,focusZ,upX,upY,upZ;
 float leftRightAngle,upDownAngle,sprint;
 
-PGraphics world,menu,HUD;
+PGraphics menu,world,pause,options,over,HUD;
 PImage mossyStone,woodPlank;
 int gridSize;
 
@@ -24,9 +24,12 @@ void setup(){
   world=createGraphics(displayWidth,displayHeight,P3D);
   HUD=createGraphics(displayWidth,displayHeight,P2D);
   menu=createGraphics(displayWidth,displayHeight,P2D);
-  noCursor();
+  pause=createGraphics(displayWidth,displayHeight,P2D);
+  options=createGraphics(displayWidth,displayHeight,P2D);
+  over=createGraphics(displayWidth,displayHeight,P2D);
   pointLight(255,255,255,eyeX,eyeY,eyeZ);
   size(displayWidth,displayHeight,P2D);
+  rectMode(CENTER);
   leftRightAngle=0;
   upDownAngle=0;
   eyeX=width/2;
@@ -48,11 +51,11 @@ void setup(){
 }
 
 void draw(){
-  if(mode==INTRO)intro();
-  if(mode==GAME)game();
-  if(mode==PAUSE)pause();
-  if(mode==OPTIONS)options();
-  if(mode==GAMEOVER)gameOver();
+  if(mode==INTRO)intro();cursor(ARROW);
+  if(mode==GAME)game();noCursor();
+  if(mode==PAUSE)pause();cursor(ARROW);
+  if(mode==OPTIONS)options();cursor(ARROW);
+  if(mode==GAMEOVER)gameOver();cursor(ARROW);
 }
 void drawSurface(int start,int end,int dist,int Height){
   stroke(255);
