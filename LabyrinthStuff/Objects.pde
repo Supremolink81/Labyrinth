@@ -96,19 +96,20 @@ class Turret extends GameObject{
   void act(){
     for(GameObject obj:objects){
       if(obj instanceof Bullet&&dist(obj.loc.x,obj.loc.z,loc.x,loc.z)<obj.size/2+size/2){
-        lives--;
+        //lives--;
         c++;
       }
     }
+    println("Hi");
   }
   void show(){
     world.pushMatrix();
-    world.translate(loc.x,loc.y,loc.z);
     world.fill(c*50);
     world.stroke(0,0,255);
     world.strokeWeight(5);
+    world.translate(loc.x,loc.y,loc.z);
     world.box(50);//base
-    world.translate(loc.x,loc.y-50,loc.z);
+    world.translate(loc.x,loc.y-70,loc.z);
     world.box(30);//top
     world.translate(loc.x,loc.y-50,loc.z);
     world.box(40,20,20);//gun

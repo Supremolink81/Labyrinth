@@ -18,9 +18,13 @@ PImage map;
 
 ArrayList<GameObject> objects;
 
+float sliderX,sliderY,sensitivity;
+boolean isLights;
+
 Robot rbt;
 
 void setup(){
+  
   world=createGraphics(displayWidth,displayHeight,P3D);
   HUD=createGraphics(displayWidth,displayHeight,P2D);
   menu=createGraphics(displayWidth,displayHeight,P2D);
@@ -30,11 +34,21 @@ void setup(){
   pointLight(255,255,255,eyeX,eyeY,eyeZ);
   size(displayWidth,displayHeight,P2D);
   rectMode(CENTER);
+  
   leftRightAngle=0;
   upDownAngle=0;
   eyeX=width/2;
   eyeY=9*height/10;
   eyeZ=height/2;
+  upX=0;
+  upY=1;
+  upZ=0;
+  sensitivity=map(sliderX,200,400,0.01,0.03);
+  
+  sliderX=300;
+  sliderY=displayHeight/2;
+  isLights=false;
+  
   gridSize=100;
   map=loadImage("map.png");
   try{
@@ -42,12 +56,17 @@ void setup(){
   }catch(Exception e){
     e.printStackTrace();
   }
-  upX=0;
-  upY=1;
-  upZ=0;
+  
   mossyStone=loadImage("Mossy_Stone_Bricks.png");
   woodPlank=loadImage("Oak_Planks.png");
   objects=new ArrayList<GameObject>();
+  
+  for(int x=0;x<map.width;x++){
+    for(int y=0;y<map.height;y++){
+      color c=map.get(x,y);
+      if(c==black)objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
+    }
+  }
 }
 
 void draw(){
