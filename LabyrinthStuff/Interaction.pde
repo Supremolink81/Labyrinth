@@ -16,12 +16,14 @@ void keyReleased(){
 }
 void mouseClicked(){
   if(mode==INTRO){
-    if(mouseX>displayWidth/2-125&&mouseX<displayWidth/2+125&&mouseY>displayHeight/2-35&&mouseY<displayHeight/2+35)mode=GAME;
+    if(mouseX>displayWidth/2-125&&mouseX<displayWidth/2+125&&mouseY>displayHeight/2-35&&mouseY<displayHeight/2+35){
+      mode=GAME;
+    }
     if(mouseX>displayWidth/2-125&&mouseX<displayWidth/2+125&&mouseY>displayHeight/1.6-35&&mouseY<displayHeight/1.6+35)mode=OPTIONS;
     if(mouseX>displayWidth/2-125&&mouseX<displayWidth/2+125&&mouseY>displayHeight/1.3-35&&mouseY<displayHeight/1.3+35)exit();
   }
   if(mode==GAME){
-    objects.add(new Bullet());
+    //objects.add(new Bullet());
   }
   if(mode==PAUSE){
     

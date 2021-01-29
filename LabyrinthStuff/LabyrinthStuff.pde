@@ -64,7 +64,10 @@ void setup(){
   for(int x=0;x<map.width;x++){
     for(int y=0;y<map.height;y++){
       color c=map.get(x,y);
-      if(c==black)objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
+      if(c==black){
+        objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
+        println("Hi");
+      }
     }
   }
 }
@@ -80,9 +83,6 @@ void drawSurface(int start,int end,int dist,int Height){
   stroke(255);
   strokeWeight(0.5);
   for(int i=start;i<end;i+=dist)for(int j=start;j<end;j+=dist)texturedCube(i,Height,j,woodPlank,dist);
-}
-void drawInterface(){
-  
 }
 void insta(GameObject obj){
   obj.act();

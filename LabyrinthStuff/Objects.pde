@@ -87,20 +87,27 @@ class Particle extends GameObject{
 }
 
 class Turret extends GameObject{
-  float rot;
+  PVector dir,turretLoc;
   color c;
+  int timer;
   Turret(PVector loc){
     super(loc.x,loc.y,loc.z,50,5);
     c=0;
+    timer=0;
+    turretLoc=new PVector(loc.x,loc.y-40,loc.z);
+    dir=new PVector(eyeX-loc.x,eyeZ-loc.z);
+    dir.setMag(5);
   }
   void act(){
     for(GameObject obj:objects){
       if(obj instanceof Bullet&&dist(obj.loc.x,obj.loc.z,loc.x,loc.z)<obj.size/2+size/2){
-        //lives--;
+        lives--;
         c++;
       }
     }
-    println("Hi");
+    timer++;
+    dir.x=eyeX-loc.x;
+    dir.y=eyeZ-loc.z;
   }
   void show(){
     world.pushMatrix();
@@ -109,10 +116,17 @@ class Turret extends GameObject{
     world.strokeWeight(5);
     world.translate(loc.x,loc.y,loc.z);
     world.box(50);//base
-    world.translate(loc.x,loc.y-70,loc.z);
+    world.popMatrix();
+    
+    world.pushMatrix();
+    world.fill(c*50);
+    world.stroke(0,0,255);
+    world.strokeWeight(5);
+    world.translate(turretLoc.x,turretLoc.y,turretLoc.z);
+    world.rotateY(dir.heading());
     world.box(30);//top
-    world.translate(loc.x,loc.y-50,loc.z);
-    world.box(40,20,20);//gun
+    world.translate(30,0,0);
+    world.box(50,20,20);//gun
     world.popMatrix();
   }
 }
