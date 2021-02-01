@@ -50,16 +50,16 @@ void moveCam(){
     eyeZ+=sin(leftRightAngle)*sprint;
   }
   if(a&&canMoveLeft()){
-    eyeX+=cos(leftRightAngle-PI/2)*sprint;
-    eyeZ+=sin(leftRightAngle-PI/2)*sprint;
+    eyeX+=cos(leftRightAngle-PI/2)*10;
+    eyeZ+=sin(leftRightAngle-PI/2)*10;
   } 
   if(s&&canMoveBackward()){
-    eyeX-=cos(leftRightAngle)*sprint;
-    eyeZ-=sin(leftRightAngle)*sprint;
+    eyeX-=cos(leftRightAngle)*10;
+    eyeZ-=sin(leftRightAngle)*10;
   }
   if(d&&canMoveRight()){
-    eyeX+=cos(leftRightAngle+PI/2)*sprint;
-    eyeZ+=sin(leftRightAngle+PI/2)*sprint;
+    eyeX+=cos(leftRightAngle+PI/2)*10;
+    eyeZ+=sin(leftRightAngle+PI/2)*10;
   }
   focusX=eyeX+cos(leftRightAngle)*300;
   focusY=eyeY+tan(upDownAngle)*300;

@@ -1,5 +1,5 @@
 import java.awt.Robot;
-
+int turretCount = 0;
 boolean w,a,s,d,p,shift;
 float eyeX,eyeY,eyeZ,focusX,focusY,focusZ,upX,upY,upZ;
 float leftRightAngle,upDownAngle,sprint;
@@ -66,18 +66,18 @@ void setup(){
       color c=map.get(x,y);
       if(c==black){
         objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
-        println("Hi");
+        objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
       }
     }
   }
 }
 
 void draw(){
-  if(mode==INTRO)intro();cursor(ARROW);
-  if(mode==GAME)game();noCursor();
-  if(mode==PAUSE)pause();cursor(ARROW);
-  if(mode==OPTIONS)options();cursor(ARROW);
-  if(mode==GAMEOVER)gameOver();cursor(ARROW);
+  if(mode==INTRO){intro();cursor(ARROW);}
+  else if(mode==GAME){game();noCursor();}
+  else if(mode==PAUSE){pause();cursor(ARROW);}
+  else if(mode==OPTIONS){options();cursor(ARROW);}
+  else if(mode==GAMEOVER){gameOver();cursor(ARROW);}
 }
 void drawSurface(int start,int end,int dist,int Height){
   stroke(255);

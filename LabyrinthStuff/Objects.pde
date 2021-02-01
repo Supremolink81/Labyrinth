@@ -92,6 +92,7 @@ class Turret extends GameObject{
   int timer;
   Turret(PVector loc){
     super(loc.x,loc.y,loc.z,50,5);
+    turretCount++;
     c=0;
     timer=0;
     turretLoc=new PVector(loc.x,loc.y-40,loc.z);
@@ -102,14 +103,20 @@ class Turret extends GameObject{
     for(GameObject obj:objects){
       if(obj instanceof Bullet&&dist(obj.loc.x,obj.loc.z,loc.x,loc.z)<obj.size/2+size/2){
         lives--;
+        obj.lives--;
         c++;
       }
     }
     timer++;
+    if(timer>60){
+      objects.add(new TurretBullet(new PVector(turretLoc.x+dir.x*10,loc.y-40,turretLoc.z+dir.z*10),dir.copy()));
+      timer=0;
+    }
     dir.x=eyeX-loc.x;
     dir.y=eyeZ-loc.z;
   }
   void show(){
+    println("Hi ", loc.x, loc.y, loc.z);
     world.pushMatrix();
     world.fill(c*50);
     world.stroke(0,0,255);
@@ -123,7 +130,7 @@ class Turret extends GameObject{
     world.stroke(0,0,255);
     world.strokeWeight(5);
     world.translate(turretLoc.x,turretLoc.y,turretLoc.z);
-    world.rotateY(dir.heading());
+    world.rotateY(-dir.heading());
     world.box(30);//top
     world.translate(30,0,0);
     world.box(50,20,20);//gun
@@ -134,13 +141,12 @@ class Turret extends GameObject{
 class TurretBullet extends GameObject{
   PVector dir;
   float speed;
-  TurretBullet(PVector loc){
+  TurretBullet(PVector loc,PVector newDir){
     super(loc.x,loc.y,loc.z,10,1);
     speed=50;
-    float vx=cos(leftRightAngle);
-    float vy=tan(upDownAngle);
-    float vz=sin(leftRightAngle);
-    dir=new PVector(vx,vy,vz);
+    float vx=cos(newDir.x);
+    float vz=sin(newDir.z);
+    dir=new PVector(vx,0,vz);
     dir.setMag(speed);
   }
   void act(){
