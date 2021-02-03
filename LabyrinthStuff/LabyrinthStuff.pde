@@ -33,7 +33,6 @@ void setup(){
   pause=createGraphics(displayWidth,displayHeight,P2D);
   options=createGraphics(displayWidth,displayHeight,P2D);
   over=createGraphics(displayWidth,displayHeight,P2D);
-  pointLight(255,255,255,eyeX,eyeY,eyeZ);
   size(displayWidth,displayHeight,P2D);
   rectMode(CENTER);
   
@@ -45,14 +44,13 @@ void setup(){
   upX=0;
   upY=1;
   upZ=0;
-  sensitivity=map(sliderX,200,400,0.01,0.03);
+  sensitivity=map(sliderX,displayWidth/8.0,displayWidth/6.0,0.01,0.03);
   sprint=10;
   hp=50;
   stamina=100;
   staminaRegen=1;
-  
-  sliderX=300;
-  sliderY=displayHeight/2;
+  sliderX=displayWidth/8.0-1;
+  sliderY=displayHeight/2.0;
   isLights=false;
   
   gridSize=100;

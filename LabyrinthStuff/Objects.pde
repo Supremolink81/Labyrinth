@@ -64,7 +64,7 @@ class Particle extends GameObject{
     lives=255;
     size=5;
     this.loc=loc;
-    speed=10;
+    speed=5;
     float vx=random(-10,10);
     float vy=random(-10,0);
     float vz=random(-10,10);
@@ -102,7 +102,7 @@ class Turret extends GameObject{
   }
   void act(){
     for(GameObject obj:objects){
-      if(obj instanceof Bullet&&dist(obj.loc.x,obj.loc.z,loc.x,loc.z)<obj.size/2+size/2){
+      if(obj instanceof Bullet&&dist(obj.loc.x,obj.loc.z,loc.x,loc.z)<(obj.size/2+size/2)*2){
         lives--;
         obj.lives--;
         c++;
@@ -166,13 +166,46 @@ class TurretBullet extends GameObject{
     }
     timer++;
     if(timer>=90)lives=0;
-    if(lives==0)for(int i=0;i<10;i++)objects.add(new Particle(this.loc));
+    if(lives==0)for(int i=0;i<30;i++)objects.add(new Particle(this.loc));
   }
   void show(){
     world.pushMatrix();
     world.translate(loc.x,loc.y,loc.z);
     world.fill(0);
     world.stroke(0,0,255);
+    world.strokeWeight(5);
+    world.box(size);
+    world.popMatrix();
+  }
+}
+
+class TurretParticle extends GameObject{
+  PVector vel,gravity;
+  float speed;
+  TurretParticle(PVector loc){
+    super();
+    lives=255;
+    size=20;
+    this.loc=loc;
+    speed=10;
+    float vx=random(-20,20);
+    float vy=random(-20,0);
+    float vz=random(-20,20);
+    vel=new PVector(vx,vy,vz);
+    vel.setMag(speed);
+    gravity=new PVector(0,1,0);
+  }
+  void act(){
+    loc.add(vel);
+    vel.add(gravity);
+    lives-=15;
+    if(loc.y>height-50)loc.y=height-50;
+  }
+  void show(){
+    world.pushMatrix();
+    world.translate(loc.x,loc.y,loc.z);
+    world.fill(255,lives);
+    world.stroke(0,0,255,lives);
     world.strokeWeight(5);
     world.box(size);
     world.popMatrix();

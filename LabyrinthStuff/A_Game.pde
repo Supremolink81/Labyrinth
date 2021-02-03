@@ -2,6 +2,8 @@ void game(){
   world.beginDraw();
   world.textureMode(NORMAL);
   world.background(0);
+  if(isLights)world.directionalLight(255,255,255,eyeX,eyeY,eyeZ);
+  else if(!isLights)world.noLights();
   world.camera(eyeX,eyeY,eyeZ,focusX,focusY,focusZ,upX,upY,upZ);
   moveCam();
   drawSurface(-2000,2000,100,height);
@@ -12,7 +14,13 @@ void game(){
     if(obj.lives<=0){
       println("Dead");
       objects.remove(i);
-      if(obj instanceof Turret)turretCount--;
+      i--;
+      if(obj instanceof Turret){
+        turretCount--;
+        for(int j=0;j<10;j++){
+          objects.add(new TurretParticle(obj.loc.copy()));
+        }
+      }
     }
     if(obj instanceof TurretBullet&&dist(obj.loc.x,obj.loc.z,eyeX,eyeZ)<5){
       hp-=int(random(9,14));
@@ -22,9 +30,6 @@ void game(){
       insta(obj);
     }
   }
-  if(p)mode=PAUSE;
-  if(isLights)world.pointLight(255,255,255,eyeX,eyeY,eyeZ);
-  else if(!isLights)world.noLights();
   if(hp<=0){
     overMsg="You lose!";
     overColor=#5F0C0C;

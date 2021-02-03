@@ -3,7 +3,6 @@ void keyPressed(){
   if(key=='a'||key=='A')a=true;
   if(key=='s'||key=='S')s=true;
   if(key=='d'||key=='D')d=true;
-  if(key=='p'||key=='P')p=true;
   if(keyCode==SHIFT)shift=true;
 }
 void keyReleased(){
@@ -11,7 +10,13 @@ void keyReleased(){
   if(key=='a'||key=='A')a=false;
   if(key=='s'||key=='S')s=false;
   if(key=='d'||key=='D')d=false;
-  if(key=='p'||key=='P')p=false;
+  if(key=='p'||key=='P'){
+    if(mode==GAME){
+      mode=PAUSE;
+    }else if(mode==PAUSE){
+      mode=GAME;
+    }
+  }
   if(keyCode==SHIFT)shift=false;
 }
 void mouseClicked(){
