@@ -23,7 +23,7 @@ void mouseClicked(){
     if(mouseX>displayWidth/2-125&&mouseX<displayWidth/2+125&&mouseY>displayHeight/1.3-35&&mouseY<displayHeight/1.3+35)exit();
   }
   if(mode==GAME){
-    //objects.add(new Bullet());
+    objects.add(new Bullet());
   }
   if(mode==PAUSE){
     
@@ -34,6 +34,9 @@ void mouseClicked(){
     if(mouseX>25&&mouseX<175&&mouseY>displayHeight/1.1-30&&mouseY<displayHeight/1.1+30)mode=INTRO;
   }
   if(mode==GAMEOVER){
-    
+    if(mouseX>displayWidth/2-200&&mouseX<displayWidth/2+200&&mouseY>displayHeight/2-50&&mouseY<displayHeight/2+50){
+      setup();
+      mode=INTRO;
+    }
   }
 }

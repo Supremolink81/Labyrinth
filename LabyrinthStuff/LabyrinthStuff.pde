@@ -2,7 +2,7 @@ import java.awt.Robot;
 int turretCount = 0;
 boolean w,a,s,d,p,shift;
 float eyeX,eyeY,eyeZ,focusX,focusY,focusZ,upX,upY,upZ;
-float leftRightAngle,upDownAngle,sprint;
+float leftRightAngle,upDownAngle,sprint,hp,stamina,staminaRegen;
 
 PGraphics menu,world,pause,options,over,HUD;
 PImage mossyStone,woodPlank;
@@ -20,6 +20,8 @@ ArrayList<GameObject> objects;
 
 float sliderX,sliderY,sensitivity;
 boolean isLights;
+String overMsg;
+color overColor;
 
 Robot rbt;
 
@@ -44,6 +46,10 @@ void setup(){
   upY=1;
   upZ=0;
   sensitivity=map(sliderX,200,400,0.01,0.03);
+  sprint=10;
+  hp=50;
+  stamina=100;
+  staminaRegen=1;
   
   sliderX=300;
   sliderY=displayHeight/2;
@@ -65,7 +71,6 @@ void setup(){
     for(int y=0;y<map.height;y++){
       color c=map.get(x,y);
       if(c==black){
-        objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
         objects.add(new Turret(new PVector(x*gridSize-2000,displayHeight-45,y*gridSize-2000)));
       }
     }

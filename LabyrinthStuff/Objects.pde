@@ -30,26 +30,26 @@ class Bullet extends GameObject{
   Bullet(){
     super(eyeX,eyeY,eyeZ,10,1);
     speed=50;
-    float vx=cos(leftRightAngle);
-    float vy=tan(upDownAngle);
-    float vz=sin(leftRightAngle);
-    dir=new PVector(vx,vy,vz);
+    dir=new PVector(focusX-eyeX,focusZ-eyeZ);
     dir.setMag(speed);
   }
   void act(){
     int hitX=int(loc.x+2000)/gridSize;
     int hitY=int(loc.z+2000)/gridSize;
-    if(map.get(hitX,hitY)==white)loc.add(dir);
+    if(map.get(hitX,hitY)==white){
+      loc.x+=dir.x;
+      loc.z+=dir.y;
+    }
     else{
       lives=0;
       for(int i=0;i<5;i++)objects.add(new Particle(loc));
     }
-    if(lives==0)for(int i=0;i<5;i++)objects.add(new Particle(this.loc));
+    if(lives==0)for(int i=0;i<10;i++)objects.add(new Particle(this.loc));
   }
   void show(){
     world.pushMatrix();
     world.translate(loc.x,loc.y,loc.z);
-    world.fill(50);
+    world.fill(255);
     world.stroke(100);
     world.box(size);
     world.popMatrix();
@@ -64,15 +64,16 @@ class Particle extends GameObject{
     lives=255;
     size=5;
     this.loc=loc;
-    speed=50;
-    float vx=random(-5,5);
-    float vy=random(-5,0);
-    float vz=random(-5,5);
+    speed=10;
+    float vx=random(-10,10);
+    float vy=random(-10,0);
+    float vz=random(-10,10);
     vel=new PVector(vx,vy,vz);
     vel.setMag(speed);
-    gravity=new PVector(0,3,0);
+    gravity=new PVector(0,1,0);
   }
   void act(){
+    loc.add(vel);
     vel.add(gravity);
     lives--;
   }
@@ -109,14 +110,14 @@ class Turret extends GameObject{
     }
     timer++;
     if(timer>60){
-      objects.add(new TurretBullet(new PVector(turretLoc.x+dir.x*10,loc.y-40,turretLoc.z+dir.z*10),dir.copy()));
+      objects.add(new TurretBullet(loc.copy(),new PVector(-dir.x,-dir.y)));
+      println("Hi");
       timer=0;
     }
     dir.x=eyeX-loc.x;
     dir.y=eyeZ-loc.z;
   }
   void show(){
-    println("Hi ", loc.x, loc.y, loc.z);
     world.pushMatrix();
     world.fill(c*50);
     world.stroke(0,0,255);
@@ -140,28 +141,40 @@ class Turret extends GameObject{
 
 class TurretBullet extends GameObject{
   PVector dir;
-  float speed;
+  float speed,timer;
+  int dmg;
   TurretBullet(PVector loc,PVector newDir){
-    super(loc.x,loc.y,loc.z,10,1);
-    speed=50;
-    float vx=cos(newDir.x);
-    float vz=sin(newDir.z);
-    dir=new PVector(vx,0,vz);
+    super(loc.x,loc.y-40,loc.z,10,1);
+    speed=20;
+    //float vx=cos(newDir.x);
+    //float vz=sin(newDir.z);
+    //dir=new PVector(vx,vz);
+    dmg=int(random(1,3));
+    dir=newDir;
     dir.setMag(speed);
   }
   void act(){
     int hitX=int(loc.x+2000)/gridSize;
     int hitY=int(loc.z+2000)/gridSize;
-    if(map.get(hitX,hitY)==white)loc.add(dir);
-    else{
+    if(map.get(hitX,hitY)==white||map.get(hitX,hitY)==black){
+      loc.x-=dir.x;
+      loc.z-=dir.y;
+    }
+    else if(map.get(hitX,hitY)!=white){
       lives=0;
       for(int i=0;i<5;i++)objects.add(new Particle(loc));
     }
-    if(lives==0)for(int i=0;i<5;i++)objects.add(new Particle(this.loc));
+    timer++;
+    if(timer>=90)lives=0;
+    if(lives==0)for(int i=0;i<10;i++)objects.add(new Particle(this.loc));
   }
   void show(){
     world.pushMatrix();
     world.translate(loc.x,loc.y,loc.z);
+    world.fill(0);
+    world.stroke(0,0,255);
+    world.strokeWeight(5);
+    world.box(size);
     world.popMatrix();
   }
 }

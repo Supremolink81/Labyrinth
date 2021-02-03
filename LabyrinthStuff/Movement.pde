@@ -43,8 +43,24 @@ boolean canMoveRight(){
   return false;
 }
 void moveCam(){
-  if(shift)sprint=30;
-  else sprint=10;
+  if(shift){
+    if(stamina>0&&staminaRegen==1){
+      sprint=30;
+      stamina--;
+    }else if(stamina==0){
+      staminaRegen=0.6;
+    }else if(stamina==100){
+      staminaRegen=1;
+    }else if(stamina<0){
+      stamina=0;
+    }
+  }else{
+    sprint=10;
+    stamina+=staminaRegen;
+    if(stamina>100){
+      stamina=100;
+    }
+  }
   if(w&&canMoveForward()){
     eyeX+=cos(leftRightAngle)*sprint;
     eyeZ+=sin(leftRightAngle)*sprint;
